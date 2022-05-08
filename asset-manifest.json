@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/asterios-sub-rb/static/css/main.762360d2.chunk.css",
+    "main.css": "/asterios-sub-rb/static/css/main.cf6176a2.chunk.css",
     "main.js": "/asterios-sub-rb/static/js/main.f6e07ecb.chunk.js",
     "main.js.map": "/asterios-sub-rb/static/js/main.f6e07ecb.chunk.js.map",
     "runtime-main.js": "/asterios-sub-rb/static/js/runtime-main.88a14622.js",
@@ -10,14 +10,14 @@
     "static/js/3.e4285f64.chunk.js": "/asterios-sub-rb/static/js/3.e4285f64.chunk.js",
     "static/js/3.e4285f64.chunk.js.map": "/asterios-sub-rb/static/js/3.e4285f64.chunk.js.map",
     "index.html": "/asterios-sub-rb/index.html",
-    "static/css/main.762360d2.chunk.css.map": "/asterios-sub-rb/static/css/main.762360d2.chunk.css.map",
+    "static/css/main.cf6176a2.chunk.css.map": "/asterios-sub-rb/static/css/main.cf6176a2.chunk.css.map",
     "static/js/2.49320fb1.chunk.js.LICENSE.txt": "/asterios-sub-rb/static/js/2.49320fb1.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/asterios-sub-rb/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.88a14622.js",
     "static/js/2.49320fb1.chunk.js",
-    "static/css/main.762360d2.chunk.css",
+    "static/css/main.cf6176a2.chunk.css",
     "static/js/main.f6e07ecb.chunk.js"
   ]
 }
