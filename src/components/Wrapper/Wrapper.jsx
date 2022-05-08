@@ -3,13 +3,43 @@ import RaidBossCalculator from "../RaidBossCalculator/RaidBossCalculator";
 import { groupBy, maxBy } from "lodash";
 import { read } from 'feed-reader'
 import './Wrapper.scss'
+
+import hallate from '../../assets/hallate.png'
+import kernon from '../../assets/kernon.jpg'
+import cabrio from '../../assets/cabrio.jpg'
+import golkonda from '../../assets/golkonda.jpg'
+
 const Wrapper = () => {
 
   const [rss, setRss] = useState('');
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState(null)
   const [bossInfo, setBossInfo] = useState([]);
-  const bossNames = ['Golkonda','Hallate','Kernon','Cabrio']
+  const bossNames = [
+    {
+      name:'Golkonda',
+      img: golkonda,
+      address: '',
+      extraInfo: ''
+    },
+    {
+      name:'Hallate',
+      img: hallate,
+      address: '',
+      extraInfo: ''
+    },
+    {
+      name:'Kernon',
+      img: kernon,
+      address: '',
+      extraInfo: ''
+    },
+    {
+      name:'Cabrio',
+      img: cabrio,
+      address: '',
+      extraInfo: ''
+    }]
   
   useEffect(() => {
     const url = ' https://lit-badlands-25495.herokuapp.com/https://asterios.tm/index.php?cmd=rss&serv=3&filter=keyboss&out=xml'
@@ -26,14 +56,17 @@ const Wrapper = () => {
 
   }, [])
 
-  const filterFeed = (feed, bossIds) => {
+  const filterFeed = (feed, bossNames) => {
     const { entries } = feed
-    var rx = new RegExp(bossNames.join('|'))
+    var rx = new RegExp(bossNames.map(x=>x.name).join('|'))
     let bosses = []
     entries.forEach(entry => {
       const match = entry.title.match(rx)
       if(match){
         entry.name = match[0]
+        const matchedBoss = bossNames.find(x=>x.name === match[0])
+        entry.img = matchedBoss.img;
+        entry.address = matchedBoss.address
         bosses.push(entry)
       }
     })
@@ -66,7 +99,7 @@ const Wrapper = () => {
     { 
       bossInfo.map(boss =>
         (
-          <RaidBossCalculator key={boss.name} bossName={boss.name} killedAt={boss.published} className="calc" />
+          <RaidBossCalculator key={boss.name} boss={boss} className="calc" />
         )
       )
     }

@@ -4,7 +4,7 @@ import Wrapper from './components/Wrapper/Wrapper';
 function App() {
   return (
     <div className="App">
-      <h1>Asterios Sub RB Calc</h1>
+      <h1>Asterios Sub RB Watcher</h1>
      <Wrapper />
     </div>
   );
