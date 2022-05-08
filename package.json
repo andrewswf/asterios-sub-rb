@@ -1,5 +1,6 @@
 {
   "name": "asterios-sub-rb",
+  "homepage": "https://andrewswf.github.io/asterios-sub-rb/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "date-fns": "^2.28.0",
     "feed-reader": "^5.0.0",
+    "gh-pages": "^3.2.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "4.0.3",
