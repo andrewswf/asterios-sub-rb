@@ -1,0 +1,14 @@
+.calculator__container{
+    padding: .5rem;
+}
+.boss__info{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.active{
+    background-color: aquamarine;
+}
