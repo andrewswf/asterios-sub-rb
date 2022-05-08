@@ -1,69 +1,77 @@
 import React, { useEffect, useState } from "react";
 import RaidBossCalculator from "../RaidBossCalculator/RaidBossCalculator";
+import { groupBy, maxBy } from "lodash";
 import { read } from 'feed-reader'
 import './Wrapper.scss'
 const Wrapper = () => {
 
-    const [rss, setRss] = useState('');
-    const [bossInfo, setBossInfo] = useState([]);
-    const bossIds = [
-        {
-            id: '4195',
-            name: 'Golkonda'
-        },
-        {
-            id: '4192',
-            name: 'Hallate'
-        },
-        {
-            id: '4186',
-            name: 'Kernon'
-        },
-        {
-            id: '4179',
-            name: 'Cabrio'
-        },
-    ]
-    useEffect(() => {
-        const url = ' https://lit-badlands-25495.herokuapp.com/https://asterios.tm/index.php?cmd=rss&serv=3&filter=all&out=xml'
-        async function getFeed(url){
-            let feed = await read(url)
-            console.log(feed)
-           setRss(feed)
-           filterFeed(feed,bossIds)
-        }
-        getFeed(url)  
-    }, [])
+  const [rss, setRss] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [error, setError] = useState(null)
+  const [bossInfo, setBossInfo] = useState([]);
+  const bossNames = ['Golkonda','Hallate','Kernon','Cabrio']
+  
+  useEffect(() => {
+    const url = ' https://lit-badlands-25495.herokuapp.com/https://asterios.tm/index.php?cmd=rss&serv=3&filter=keyboss&out=xml'
 
-    const filterFeed = (feed, bossIds) => {
-        console.log('filtering feed')
-        const { entries } = feed
-        
-        var rx =  new RegExp(bossIds.map(v => v.id).join('|'))
-        let bosses = entries.filter(
-            x => {
-                return rx.test(x.link)
-            })
-        bosses.forEach(boss=>{
-            boss.id = boss.link.split('id=')[1]
-            boss.name = bossIds.find(x=>x.id==boss.id).name
-        })
-        console.log(bosses)
-        setBossInfo(bosses)
+
+    read(url).then(res => {
+      setIsLoaded(true)
+      filterFeed(res, bossNames)
+    },
+      error => {
+        setIsLoaded(true)
+        setError(error)
+      })
+
+  }, [])
+
+  const filterFeed = (feed, bossIds) => {
+    const { entries } = feed
+    var rx = new RegExp(bossNames.join('|'))
+    let bosses = []
+    entries.forEach(entry => {
+      const match = entry.title.match(rx)
+      if(match){
+        entry.name = match[0]
+        bosses.push(entry)
+      }
+    })
+    const bossLists = Object.values(groupBy(bosses, 'name'))
+    const finalList = []
+
+    for(let i = 0; i < bossLists.length; i++){
+      finalList.push(maxBy(bossLists[i],(x)=>{return new Date(x.published).getTime()}))
     }
 
+    setBossInfo(finalList)
+  }
+  
+
+
+  if (!isLoaded)
     return (
-        <div className="wrapper">
-
-        {
-            bossInfo.map(boss=>
-                (
-                    <RaidBossCalculator bossName={boss.name} killedAt={boss.published} className="calc"/>
-                )
-        )}
-
-        </div>
+      <h2>Loading</h2>
     )
+  else if (error) {
+    return (
+      <div className="error">
+        <h2>Error</h2>
+        <span> {error.message}</span>
+      </div>
+    )
+  }
+  else return (
+    <div className="wrapper">
+    { 
+      bossInfo.map(boss =>
+        (
+          <RaidBossCalculator key={boss.name} bossName={boss.name} killedAt={boss.published} className="calc" />
+        )
+      )
+    }
+  </div>
+  )
 }
 
 export default Wrapper
